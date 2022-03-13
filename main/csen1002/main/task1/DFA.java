@@ -34,7 +34,7 @@ public class DFA {
     public boolean run(String input) {
         String currentState="0";
         int t;
-        // Traverse sequence and move through task1.DFA
+        // Traverse sequence and move through csen1002.main.task1.DFA
         for(int i =0;i<input.length();i++)
             currentState = transition[Integer.parseInt(currentState)].charAt(input.charAt(i) == '0' ? 2 : 4) + "";
 
@@ -48,8 +48,6 @@ public class DFA {
     public static void main(String []args){
         String d1 ="0,0,1;1,2,1;2,0,3;3,3,3#1,3";
         DFA dfa1=new DFA(d1);
-        // should be false
         System.out.println(dfa1.run("100010010"));
-
     }
 }

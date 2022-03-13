@@ -10,7 +10,7 @@ import csen1002.main.task1.DFA;
 
 public class Task1PublicTest {
 	
-	//////////1st task1.DFA Strings Validation///////////////
+	//////////1st csen1002.main.task1.DFA Strings Validation///////////////
 	@Test 
 	@Timeout(5)
 	public void testDFA1T1() {
@@ -41,7 +41,7 @@ public class Task1PublicTest {
 		DFA dfa1 = new DFA("0,0,1;1,2,1;2,0,3;3,3,3#1,3");
 		assertFalse(dfa1.run("0010"));
 	}
-	//////////2nd task1.DFA Strings Validation///////////////
+	//////////2nd csen1002.main.task1.DFA Strings Validation///////////////
 	@Test
 	@Timeout(5)
 	public void testDFA2T1() {
