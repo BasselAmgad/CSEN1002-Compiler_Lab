@@ -171,8 +171,8 @@ public class NFA {
 
     public static void main(String[] args) {
         String nfaIn1 = "2,3#4,5;7,8#0,1;0,7;1,2;1,4;3,6;5,6;6,1;6,7#8";
-        NFA n7 = new NFA("0,1;2,3#1,2;3,4#0,1;1,2;2,3;3,4;4,0#4");
-        n7.run("0101");
+        NFA n7 = new NFA("1,2;4,5;8,9#3,4;6,7#0,1;0,3;2,1;2,3;5,6;5,8;7,10;9,10#10");
+        n7.run("100");
         String input1 ="10101010";
         String input2 ="01010101";
         //NFA nfa1 = new NFA(nfaIn1);
