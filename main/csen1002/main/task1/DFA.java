@@ -1,18 +1,11 @@
 package csen1002.main.task1;
 
-/**
- * Write your info here
- *
- * @name Bassel Amgad Sharaf
- * @id 43-6927
- * @labNumber 08
- */
+
 public class DFA {
-    String states[];
-    String alphabet[]={"0","1"};
-    String transition[];
-    String StartState="0";
-    String Goal[];
+
+    String[] transition;
+
+    String[] Goal;
     /**
      * DFA constructor
      *
@@ -20,8 +13,7 @@ public class DFA {
      */
     public DFA(String description) {
         String[] s1 = description.split("#");
-        String[] stateTransitions=s1[0].split(";");
-        transition=stateTransitions;
+        transition= s1[0].split(";");
         Goal=s1[1].split(",");
     }
 
@@ -33,14 +25,13 @@ public class DFA {
      */
     public boolean run(String input) {
         String currentState="0";
-        int t;
         // Traverse sequence and move through csen1002.main.task1.DFA
         for(int i =0;i<input.length();i++)
             currentState = transition[Integer.parseInt(currentState)].charAt(input.charAt(i) == '0' ? 2 : 4) + "";
 
         // Check if the final state is a goal
-        for(int i=0;i<Goal.length;i++)
-            if(Goal[i].equals(currentState))
+        for (String s : Goal)
+            if (s.equals(currentState))
                 return true;
         return false;
     }

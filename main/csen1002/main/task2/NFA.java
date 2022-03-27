@@ -1,14 +1,9 @@
 package csen1002.main.task2;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-/**
- * Write your info here
- *
- * @name Bassel Amgad Sharaf
- * @id 43-6927
- * @labNumber 08
- */
+
 public class NFA {
 
     HashMap<String, HashSet<String>> zeroTransitions, oneTransitions,   closure;
@@ -33,21 +28,18 @@ public class NFA {
 
 
     public static HashSet<String> createAcceptStates(String s){
-        HashSet<String> acceptStates=new HashSet<String>();
+        HashSet<String> acceptStates=new HashSet<>();
         String [] states=s.split(",");
-        for(String x : states){
-            acceptStates.add(x);
-        }
+        Collections.addAll(acceptStates, states);
         return acceptStates;
     }
 
     public static HashMap<String, HashSet<String>> createTransitions(String s) {
-        HashMap<String, HashSet<String>> set = new HashMap<String, HashSet<String>>();
+        HashMap<String, HashSet<String>> set = new HashMap<>();
         String[] splited = s.split(";");
         String current;
-        boolean hasTransition;
-        for (int i = 0; i < splited.length; i++) {
-            String[] g = splited[i].split(",");
+        for (String value : splited) {
+            String[] g = value.split(",");
             current = g[0];
             HashSet<String> newSet;
             if (set.containsKey(current)) {
@@ -69,6 +61,7 @@ public class NFA {
             // loop over each hashmap element
             for (String state : closure.keySet()) {
                 // loop over each element in the hashset and add their epsilon set if it exists to current
+                @SuppressWarnings("unchecked")
                 HashSet<String> newSet = (HashSet<String>) closure.get(state).clone();
                 for (String elem : closure.get(state)) {
                     // if it exists in the epsilon closure
@@ -93,7 +86,7 @@ public class NFA {
 
 
     public HashSet<String> getEpsilon(String s){
-        HashSet<String>state=new HashSet<String>();
+        HashSet<String>state= new HashSet<>();
         if(closure.containsKey(s)){
             state.addAll(closure.get(s));
         }else{
@@ -107,13 +100,12 @@ public class NFA {
         System.out.println("-------------------RUN----------------");
         // If i have the closure and I create the initial state I can start running
         HashSet<String> currentState= getEpsilon("0");
-        HashSet<String> initialState= currentState;
         currentState.add("0");
         System.out.print(currentState+" --> ");
         HashSet<String> newState,temp;
         for(int i=0;i<input.length();i++){
-            newState = new HashSet<String>();
-            temp=new HashSet<String>();
+            newState = new HashSet<>();
+            temp=new HashSet<>();
             if(input.charAt(i)=='0')
                 // add zero transitions that each number in the state has
                 for(String s : currentState){
@@ -139,7 +131,7 @@ public class NFA {
                 if(temp.equals(newState))
                     break;
                 newState=temp;
-                temp=new HashSet<String>();
+                temp=new HashSet<>();
             }
 
             // now the new state has all needed numbers
@@ -162,22 +154,12 @@ public class NFA {
     }
 
 
-    public static void printArray(String[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.println(arr[i]);
-
-        }
-    }
 
     public static void main(String[] args) {
-        String nfaIn1 = "2,3#4,5;7,8#0,1;0,7;1,2;1,4;3,6;5,6;6,1;6,7#8";
-        NFA n7 = new NFA("1,2;4,5;8,9#3,4;6,7#0,1;0,3;2,1;2,3;5,6;5,8;7,10;9,10#10");
-        n7.run("100");
+
+        NFA nfa1 = new NFA("1,2;4,5;8,9#3,4;6,7#0,1;0,3;2,1;2,3;5,6;5,8;7,10;9,10#10");
         String input1 ="10101010";
-        String input2 ="01010101";
-        //NFA nfa1 = new NFA(nfaIn1);
-        // nfa1.run(input1);
-        //nfa1.run(input2);
+        nfa1.run(input1);
 
     }
 }
