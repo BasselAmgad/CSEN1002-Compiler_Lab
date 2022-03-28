@@ -19,21 +19,29 @@ class Task5TestsV0 {
 	@Timeout(5)
 	public void testReg2() {
 		CFG cfg = new CFG("S,ScT,Sm,T,n;T,mSn,imLn,i;L,SdL,S");
-		assertEquals("S,TS',nS';S',cTS',mS',e;T,mSn,imLn,i;L,mSnS'dL,imLnS'dL,iS'dL,nS'dL,mSnS',imLnS',iS',nS'", cfg.lre());
+		assertEquals("S,TS',nS';" +
+				"S',cTS',mS',e;" +
+				"T,mSn,imLn,i;" +
+				"L,mSnS'dL,imLnS'dL,iS'dL,nS'dL,mSnS',imLnS',iS',nS'", cfg.lre());
 	}
 	
 	@Test
 	@Timeout(5)
 	public void testReg3() {
 		CFG cfg = new CFG("S,SpT,Sq,T,b;T,qSb,iqKb,i;K,SdK,S");
-		assertEquals("S,TS',bS';S',pTS',qS',e;T,qSb,iqKb,i;K,qSbS'dK,iqKbS'dK,iS'dK,bS'dK,qSbS',iqKbS',iS',bS'", cfg.lre());
+		assertEquals("S,TS',bS';" +
+				"S',pTS',qS',e;" +
+				"T,qSb,iqKb,i;" +
+				"K,qSbS'dK,iqKbS'dK,iS'dK,bS'dK,qSbS',iqKbS',iS',bS'", cfg.lre());
 	}
 	
 	@Test
 	@Timeout(5)
 	public void testReg4() {
 		CFG cfg = new CFG("S,LW,Wd;L,SW,LS,m;W,SL,m");
-		assertEquals("S,LW,Wd;L,WdWL',mL';L',WWL',SL',e;W,mL'WLW',mW';W',dWL'WLW',dLW',e",cfg.lre());
+		assertEquals("S,LW,Wd;" +
+				"L,WdWL',mL';" +
+				"L',WWL',SL',e;W,mL'WLW',mW';W',dWL'WLW',dLW',e",cfg.lre());
 	}
 	
 	@Test
