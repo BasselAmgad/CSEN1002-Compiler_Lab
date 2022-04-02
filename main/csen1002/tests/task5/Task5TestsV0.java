@@ -50,5 +50,54 @@ class Task5TestsV0 {
 		CFG cfg = new CFG("S,ScT,Sq,T,b;T,qSb,iqHb,i;H,SdH,S");
 		assertEquals("S,TS',bS';S',cTS',qS',e;T,qSb,iqHb,i;H,qSbS'dH,iqHbS'dH,iS'dH,bS'dH,qSbS',iqHbS',iS',bS'", cfg.lre());
 	}
+
+	@Test
+	@Timeout(5)
+	public void testReg6() {
+		CFG cfg = new CFG("S,ScT,T;T,aSb,iaLb,i;L,SdL,S");
+		assertEquals("S,TS';S',cTS',e;T,aSb,iaLb,i;L,aSbS'dL,iaLbS'dL,iS'dL,aSbS',iaLbS',iS'", cfg.lre());
+	}
+	@Test
+	@Timeout(5)
+	public void testReg7() {
+		CFG cfg = new CFG("S,Sa,b");
+		assertEquals("S,bS';S',aS',e", cfg.lre());
+	}
+	@Test
+	@Timeout(5)
+	public void testReg8() {
+		CFG cfg = new CFG("S,Sab,cd");
+		assertEquals("S,cdS';S',abS',e", cfg.lre());
+	}
+	@Test
+	@Timeout(5)
+	public void testReg9() {
+		CFG cfg = new CFG("S,SuS,SS,Ss,lSr,a");
+		assertEquals("S,lSrS',aS';S',uSS',SS',sS',e", cfg.lre());
+	}
+	@Test
+	@Timeout(5)
+	public void testReg10() {
+		CFG cfg = new CFG("S,SuT,T;T,TF,F;F,Fs,P;P,a,b");
+		assertEquals("S,TS';S',uTS',e;T,FT';T',FT',e;F,PF';F',sF',e;P,a,b", cfg.lre());
+	}
+	@Test
+	@Timeout(5)
+	public void testReg11() {
+		CFG cfg = new CFG("S,z,To;T,o,Sz");
+		assertEquals("S,z,To;T,oT',zzT';T',ozT',e", cfg.lre());
+	}
+	@Test
+	@Timeout(5)
+	public void testReg12() {
+		CFG cfg = new CFG("S,lLr,a;L,LbS,S");
+		assertEquals("S,lLr,a;L,lLrL',aL';L',bSL',e", cfg.lre());
+	}
+	@Test
+	@Timeout(5)
+	public void testReg13() {
+		CFG cfg = new CFG("S,BC,C;B,Bb,b;C,SC,a");
+		assertEquals("S,BC,C;B,bB';B',bB',e;C,bB'CCC',aC';C',CC',e", cfg.lre());
+	}
 	
 }
