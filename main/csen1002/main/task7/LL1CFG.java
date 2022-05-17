@@ -1,6 +1,5 @@
 package csen1002.main.task7;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -9,9 +8,9 @@ import java.util.Stack;
 /**
  * Write your info here
  * 
- * @name John Smith
- * @id 43-0234
- * @labNumber 07
+ * @name Bassel Amgad
+ * @id 43-6927
+ * @labNumber 08
  */
 public class LL1CFG {
 	/**
@@ -57,18 +56,23 @@ public class LL1CFG {
 	private void constructTable() {
 		for(String v: variables){
 			for(String r :rules){
-				for(String t: terminals){
-					if(first.get(r).contains(t)){
-						ptable.put(v+t,r);
-					}
-					else{
-						if(grammar.get(v).contains("e")){
-							if(follow.get(v).contains(t)){
-								ptable.put(v+t,"e");
+				if(grammar.get(v).contains(r)){
+					for(String t: terminals){
+						if(first.get(r).contains(t)){
+							if(!ptable.containsKey(v+t))
+								ptable.put(v+t,r);
+						}
+						else{
+							if(grammar.get(v).contains("e")){
+								if(follow.get(v).contains(t)){
+									if(!ptable.containsKey(v+t))
+										ptable.put(v+t,"e");
+								}
 							}
 						}
 					}
 				}
+
 			}
 
 		}
@@ -76,6 +80,7 @@ public class LL1CFG {
 
 
 	private void constructTerminals(String description){
+		terminals.add("$");
 		for(int i =0;i<description.length();i++){
 			if(Character.isLowerCase(description.charAt(i))&&description.charAt(i)!='e')
 				terminals.add(description.charAt(i)+"");
@@ -100,9 +105,7 @@ public class LL1CFG {
 		int counter =0;
 		for(String r : f){
 			String [] tmp = r.split(",");
-			for (int i = 1;i<tmp.length;i++){
-				firstslist.add(tmp[i]);
-			}
+			firstslist.addAll(Arrays.asList(tmp).subList(1, tmp.length));
 		}
 		for(String r : rules){
 			ArrayList <String> tmp = new ArrayList<>();
@@ -116,16 +119,28 @@ public class LL1CFG {
 
 	private void construct(String[] g,Hashtable<String,ArrayList<String>> h) {
 		for( String r: g){
-			ArrayList<String> list1 = new ArrayList<>();
 			String[] tmp = r.split(",");
 			String key = tmp[0].charAt(0)+"";
 			variables.add(key);
 			rules.addAll(Arrays.asList(tmp).subList(1, tmp.length));
-			list1.addAll(Arrays.asList(tmp).subList(1, tmp.length));
+			ArrayList<String> list1 = new ArrayList<>(Arrays.asList(tmp).subList(1, tmp.length));
 			h.put(key,list1);
 		}
 	}
 
+	private String getStackString(Stack<String> s){
+		StringBuilder result = new StringBuilder();
+		Object[] a =  s.toArray();
+		for(int i = a.length-1;i>=0;i--){
+			Object t = a[i];
+			if(t.equals("$"))
+				continue;
+			if(t.equals("e"))
+				continue;
+			result.append(t);
+		}
+		return result.toString();
+	}
 
 	/**
 	 * Returns A string encoding a derivation is a comma-separated sequence of sentential forms each representing a step in the derivation..
@@ -134,53 +149,62 @@ public class LL1CFG {
 	 * @return returns a string encoding a left-most derivation.
 	 */
 	public String parse(String input) {
-		Stack<String> stack = new Stack<>();
-		stack.push("$");
-		stack.push("S");
-		String result="";
-		String r="S,";
+		input+="$";
+		Stack<String> s = new Stack<>();
+		s.push("$");
+		s.push("S");
+		String buffer ="";
+		String output = "S,";
 		int pointer = 0;
-		String character,top;
-		while(true){
-			character = input.charAt(pointer)+"";
-			top = stack.peek();
+		boolean error=false;
 
-			//end of input
-			if(top.equals("$")&& character.equals("$")){
+		do{
+			String key = s.peek()+input.charAt(pointer);
+			if(key.equals("$$")){
+				break;
+			}
+			if(s.peek().equals("e")){
+				s.pop();
+				continue;
+			}
+
+			if(s.peek().equals(input.charAt(pointer)+"")){
+				buffer+=s.peek();
+				s.pop();
+				pointer++;
+				continue;
+			}
+
+			if(!ptable.containsKey(key)){
+				error=true;
 				break;
 			}
 
-			// terminal
-			if(top.equals(character)){
-				pointer++;
-				r+=top;
-				stack.pop();
-				continue;
-			}
-			//
-			if(ptable.containsKey(top+character)){
-
+			String rule = ptable.get(key);
+			s.pop();
+			for(int i = rule.length()-1;i>=0;i--){
+				s.push(rule.charAt(i)+"");
 			}
 
+			output+=buffer+getStackString(s)+",";
 
-
-
-			break;
+		} while(true);
+		if(error){
+			output+="ERROR,";
 		}
-
-
-
-		return null;
+		System.out.println(output.substring(0,output.length()-1));
+		System.out.println("-------------------------------------------------------------------------------------- \n");
+		return output.substring(0,output.length()-1);
 	}
 
 
 	public static void main(String []args){
 		String ll1cfg1 = "S,zToS,n,e;T,zTo,No;N,n,e#S,z,n,e;T,z,no;N,n,e#S,$;T,o;N,o";
-
 		LL1CFG c =new LL1CFG(ll1cfg1);
-
 		String input1 = "zzooo";
-		String input2 = "zoozznooo";
+		String input2 = "zzznoooon";
+		c.parse(input2);
+
 
 
 	}
